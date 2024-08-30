@@ -34,6 +34,14 @@ const ListItem = styled.li`
   list-style: none;
 `
 
+type Song = {
+  _id: string
+  title: string
+  artist: string
+  album: string
+  genre: string
+}
+
 
 const LandingPage = () => {
 
@@ -42,7 +50,7 @@ const LandingPage = () => {
   const dispatch = useDispatch()
   
   const [searchError, setSearchError] = useState(false);
-  const [songObject, setSongObject] = useState([])
+  const [songObject, setSongObject] = useState<Song[]>([])
 
   useEffect(() => {
     dispatch({type: ACTION_TYPES.FETCH_SONGS});
