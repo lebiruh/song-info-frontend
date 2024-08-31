@@ -8,6 +8,7 @@ import ACTION_TYPES from "../../lib/action.types"
 import SongsList from '../../components/Songs/SongsList'
 import FilteredSongsList from '../../components/Songs/FilteredSongs'
 import { FaAngleDown, FaChevronUp } from "react-icons/fa";
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -101,7 +102,7 @@ const LandingPage = () => {
         <hr />
       </> : songObject.length > 0 ? <FilteredSongsList songObject = {songObject}/> :
       songs.isLoading ? (
-        <p style={{textAlign: "center", width: "100%"}}>Loading songs...</p>
+        <p style={{textAlign: "center", width: "100%"}}><CircularProgress /></p>
       ) : songs.error ? (
         <p style={{textAlign: "center", width: "100%"}}>Error: {songs.error}</p>
       ) : (
