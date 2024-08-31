@@ -7,6 +7,7 @@ import SongsNavbar from '../../components/Songs/SongsNavbar'
 import ACTION_TYPES from "../../lib/action.types"
 import SongsList from '../../components/Songs/SongsList'
 import FilteredSongsList from '../../components/Songs/FilteredSongs'
+import { FaAngleDown, FaChevronUp } from "react-icons/fa";
 
 
 
@@ -18,20 +19,47 @@ const OuterContainer = styled.div`
 
 const InnerContainer = styled.div`
   width: 100%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
 `
 
-const Heading = styled.h2`
-  margin-left: 20px;
-  margin-bottom: 0;
+const StatButton = styled.button`
+
+  margin-top: 20px;
+
+  margin-bottom: 10px;
+  width: 100px;
+  height: 40px;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  background-color: lightblue;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #007BFF;
+    transition: background-color 0.3s ease;
+  }
 `
 
 const List = styled.ul`
   margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
 `
 
 const ListItem = styled.li`
   list-style: none;
+  font-weight: 400;
 `
 
 type Song = {
@@ -51,6 +79,7 @@ const LandingPage = () => {
   
   const [searchError, setSearchError] = useState(false);
   const [songObject, setSongObject] = useState<Song[]>([])
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     dispatch({type: ACTION_TYPES.FETCH_SONGS});
@@ -59,6 +88,10 @@ const LandingPage = () => {
     dispatch({type: ACTION_TYPES.FETCH_ALBUM_STATISTICS});
     dispatch({type: ACTION_TYPES.FETCH_GENRE_STATISTICS});
   }, [dispatch]);
+
+  const handleStatButtonClick = () => {
+    setOpen((prev) => !prev);
+  }
 
   return (
     <OuterContainer>
@@ -74,19 +107,19 @@ const LandingPage = () => {
       ) : (
         <>
           <InnerContainer>        
-            <Heading>Stats</Heading>
-              <List>
+            <StatButton onClick={handleStatButtonClick}>Stats { open ? <FaChevronUp style={{ width: "25px", height: "25px"}} /> : <FaAngleDown style={{ width: "30px", height: "30px"}}/>}</StatButton>
+              <List style={{ display: open ? 'block' : 'none'}}>
                 <ListItem>
-                  <span style={{fontWeight: 300}}>Total Number of Songs</span> - {songs.totalSongs} 
+                  {songs.totalSongs} <span style={{fontSize: "18px", fontWeight: "400", color: "#0984D1", fontStyle: "italic"}}>-Songs</span>
                 </ListItem>
                 <ListItem>
-                  <span style={{fontWeight: 300}}>Total Number of Artists</span> - {songs.totalArtists} 
+                  {songs.totalArtists} <span style={{fontSize: "18px", fontWeight: "400", color: "#0984D1", fontStyle: "italic"}}>-Artists</span> 
                 </ListItem>
                 <ListItem>
-                  <span style={{fontWeight: 300}}>Total Number of Albums</span> - {songs.totalAlbums} 
+                  {songs.totalAlbums} <span style={{fontSize: "18px", fontWeight: "400", color: "#0984D1", fontStyle: "italic"}}>-Albums</span> 
                 </ListItem>
                 <ListItem>
-                  <span style={{fontWeight: 300}}>Total Number of Genres</span> - {songs.totalGenres} 
+                  {songs.totalGenres} <span style={{fontSize: "18px", fontWeight: "400", color: "#0984D1", fontStyle: "italic"}}>-Genres</span> 
                 </ListItem>
               </List>
           </InnerContainer>
